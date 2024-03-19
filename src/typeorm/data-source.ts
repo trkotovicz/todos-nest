@@ -14,6 +14,7 @@ const options: DataSourceOptions = {
   database: process.env.DB_NAME,
   synchronize: true,
   logging: true,
+  entities: ['dist/**/*.entity.js'],
   migrationsRun: true,
   migrations: [`${__dirname}/migrations/**/*.ts`],
 };
