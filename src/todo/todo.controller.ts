@@ -5,6 +5,7 @@ import {
   Get,
   Post,
   Put,
+  Request,
   UseGuards,
 } from '@nestjs/common';
 import { ParamId } from '../decorators/param-id.decorator';
@@ -19,8 +20,8 @@ export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
   @Post()
-  async create(@Body() data: CreateTodoDTO) {
-    return await this.todoService.create(data);
+  async create(@Body() data: CreateTodoDTO, @Request() req) {
+    return await this.todoService.create(data, req.user.id);
   }
 
   @Get()

@@ -8,8 +8,8 @@ import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
+    AuthModule,
     TypeOrmModule.forFeature([TodoEntity]),
-    forwardRef(() => AuthModule),
     forwardRef(() => UserModule),
   ],
   controllers: [TodoController],

@@ -29,9 +29,7 @@ export class AuthService {
         },
         {
           expiresIn: '7 days',
-          subject: String(user.id),
-          issuer: 'login',
-          audience: 'user',
+          subject: user.id,
         },
       ),
     };
@@ -39,10 +37,7 @@ export class AuthService {
 
   verifyToken(token: string) {
     try {
-      const data = this.jwtService.verify(token, {
-        issuer: 'login',
-        audience: 'user',
-      });
+      const data = this.jwtService.verify(token);
       return data;
     } catch (error) {
       throw new BadRequestException(error);

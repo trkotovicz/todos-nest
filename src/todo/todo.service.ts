@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -17,10 +18,13 @@ export class TodoService {
     private todoRepository: Repository<TodoEntity>,
   ) {}
 
-  async create(data: CreateTodoDTO): Promise<TodoEntity> {
+  async create(data: CreateTodoDTO, userId: string): Promise<TodoEntity> {
+    if (!userId) throw new BadRequestException('User ID is missing');
+
     await this.existsTask(data.task);
     const todo = this.todoRepository.create({
       id: randomUUID(),
+      userId,
       ...data,
     });
     await this.todoRepository.save(todo);
