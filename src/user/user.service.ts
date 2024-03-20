@@ -4,6 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { randomUUID } from 'crypto';
 import { Repository } from 'typeorm';
 import { CreateUserDTO } from './dto/create-user.dto';
+import { UpdateUserDTO } from './dto/update-user.dto';
 import { UserEntity } from './entity/user.entity';
 
 @Injectable()
@@ -30,6 +31,30 @@ export class UserService {
     await this.userRepository.save(user);
 
     return user;
+  }
+
+  async list(): Promise<UserEntity[]> {
+    return await this.userRepository.find();
+  }
+
+  async readOne(id: string): Promise<UserEntity> {
+    return await this.userRepository.findOne({ where: { id } });
+  }
+
+  async update(id: string, data: UpdateUserDTO): Promise<void> {
+    const updateData: Partial<UpdateUserDTO> = {};
+    if (data.username) {
+      await this.existsUsername(data.username);
+      updateData.username = data.username;
+    }
+    if (data.password) {
+      updateData.password = await this.hashPassword(data.password);
+    }
+    await this.userRepository.update(id, updateData);
+  }
+
+  async delete(id: string): Promise<void> {
+    await this.userRepository.softRemove({ id });
   }
 
   async existsUsername(username: string): Promise<void | Error> {
