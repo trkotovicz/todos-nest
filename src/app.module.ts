@@ -4,6 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DBConfig } from './config/db.config';
 import { UserModule } from './user/user.module';
 import { TodoModule } from './todo/todo.module';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -15,10 +18,12 @@ import { TodoModule } from './todo/todo.module';
       useClass: DBConfig,
       inject: [DBConfig],
     }),
+    ThrottlerModule.forRoot([{ ttl: 60000, limit: 10 }]),
     forwardRef(() => UserModule),
     forwardRef(() => TodoModule),
+    forwardRef(() => AuthModule),
   ],
   controllers: [],
-  providers: [],
+  providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
 export class AppModule {}

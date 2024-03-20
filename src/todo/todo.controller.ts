@@ -1,9 +1,19 @@
-import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
-import { TodoService } from './todo.service';
-import { CreateTodoDTO } from './dto/create-todo.dto';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { ParamId } from '../decorators/param-id.decorator';
+import { AuthGuard } from '../guards/auth.guard';
+import { CreateTodoDTO } from './dto/create-todo.dto';
 import { UpdateTodoDTO } from './dto/update-todo.dto';
+import { TodoService } from './todo.service';
 
+@UseGuards(AuthGuard)
 @Controller('todos')
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}

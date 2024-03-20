@@ -1,9 +1,19 @@
-import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
-import { CreateUserDTO } from './dto/create-user.dto';
-import { UserService } from './user.service';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { ParamId } from '../decorators/param-id.decorator';
+import { AuthGuard } from '../guards/auth.guard';
+import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
+import { UserService } from './user.service';
 
+@UseGuards(AuthGuard)
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
