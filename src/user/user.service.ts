@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { randomUUID } from 'crypto';
@@ -38,10 +42,13 @@ export class UserService {
   }
 
   async readOne(id: string): Promise<UserEntity> {
-    return await this.userRepository.findOne({ where: { id } });
+    const user = await this.userRepository.findOne({ where: { id } });
+    if (!user) throw new NotFoundException(`User ${id} Not Found`);
+    return user;
   }
 
   async update(id: string, data: UpdateUserDTO): Promise<void> {
+    await this.findById(id);
     const updateData: Partial<UpdateUserDTO> = {};
     if (data.username) {
       await this.existsUsername(data.username);
@@ -54,12 +61,19 @@ export class UserService {
   }
 
   async delete(id: string): Promise<void> {
+    await this.findById(id);
     await this.userRepository.softRemove({ id });
   }
 
   async existsUsername(username: string): Promise<void | Error> {
     if (await this.userRepository.exists({ where: { username } })) {
       throw new ConflictException(`Username ${username} already in use`);
+    }
+  }
+
+  async findById(id: string): Promise<void | Error> {
+    if (!(await this.userRepository.existsBy({ id }))) {
+      throw new NotFoundException(`User ${id} Not Found`);
     }
   }
 }
