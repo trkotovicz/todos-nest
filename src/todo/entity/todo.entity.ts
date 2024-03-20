@@ -17,7 +17,7 @@ export class TodoEntity {
   @Column({ type: 'varchar', unique: true, nullable: false, length: 63 })
   task: string;
 
-  @Column({ type: 'varchar', length: 127 })
+  @Column({ type: 'varchar', length: 127, default: null })
   description: string;
 
   @ManyToOne(() => UserEntity, (user) => user.todos)
