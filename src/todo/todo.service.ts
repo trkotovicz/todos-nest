@@ -36,7 +36,9 @@ export class TodoService {
   }
 
   async readOne(id: string): Promise<TodoEntity> {
-    return await this.todoRepository.findOneOrFail({ where: { id } });
+    const todo = await this.todoRepository.findOne({ where: { id } });
+    if (!todo) throw new NotFoundException(`Todo ${id} Not Found`);
+    return todo;
   }
 
   async update(id: string, data: UpdateTodoDTO): Promise<void> {
