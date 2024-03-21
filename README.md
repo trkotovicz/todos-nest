@@ -1,73 +1,100 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# ToDo App
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+ToDo App é uma API com as principais funcionalidades de um gerenciador de tarefas.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Sobre a aplicação
 
-## Description
+- A aplicação foi construída utilizando Node.JS, Typescript e o framework [Nest.JS](https://docs.nestjs.com/).
+- O ORM escolhido foi o [TypeORM](https://typeorm.io/).
+- O banco é o [MySQL](https://www.mysql.com/)
+- As rotas são protegidas no padrão [Bearer Authentication](https://swagger.io/docs/specification/authentication/bearer-authentication).
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Requisitos
 
-## Installation
+Uma pessoa deseja se cadastrar para usufruir do gerenciador de tarefas:
+- Pessoa precisa estar autenticada.
+- Pessoa pode ter várias tarefas.
+- Não pode haver tarefas repetidas.
 
+## Funcionalidades
+
+- **Criar uma pessoa:** o `username` deve ser único.
+	- Listar usuários.
+	- Excluir usuário.
+	- Editar usuário.
+- **Adicionar uma tarefa**: `task` deve ser único.
+	- Listar tarefas.
+	- Excluir tarefas.
+	- Editar tarefas.
+
+## Variáveis de Ambiente
+
+Para usar a aplicação, você precisará configurar as variáveis ​​de ambiente.
+Renomeie o arquivo raiz do projeto `.env.example` para `.env`. Este arquivo contém todas as variáveis ​​necessárias para iniciar o aplicativo.
+
+⚠️ **Importante**
+Você deve substituir as informações do arquivo pelas credenciais do seu banco de dados.
+Além disso, na variável `MYSQL_HOST` você precisará informar `localhost` para rodar o projeto **localmente**, ou `mysql` para rodar a aplicação via **Docker**.
+Exemplo:
 ```bash
-$ npm install
+MYSQL_HOST=mysql # Para rodar pelo Docker
+MYSQL_HOST=localhost # Para rodar localmente
+MYSQL_USER=root
+MYSQL_PASSWORD=root
 ```
 
-## Running the app
+## Inicialização da Aplicação
 
-```bash
-# development
-$ npm run start
+### Inicialização via Docker 🐳
 
-# watch mode
-$ npm run start:dev
+1. Clone o repositório `git@github.com:trkotovicz/todos-nest.git`.
+2. Na raíz do repositório, abra o terminal e rode o comando `npm run compose:up` e aguarde a alicação subir (esse passo pode demorar um pouco).
+3. Para encerrar a aplicação, rode o comando `npm run compose:down`.
 
-# production mode
-$ npm run start:prod
-```
+### Inicialização local 🖥
 
-## Test
+1. Clone o repositório `git@github.com:trkotovicz/todos-nest.git`.
+2. Na raíz do repositório instale as dependências:
+	```bash
+	$ npm install
+	```
+3. Configure as variáveis de ambiente no arquivo `.env`
+4. Inicialize o projeto:
+	```bash
+	$ npm start
+	```
 
-```bash
-# unit tests
-$ npm run test
 
-# e2e tests
-$ npm run test:e2e
+## API
 
-# test coverage
-$ npm run test:cov
-```
+Com a aplicação rodando acesse a [documentação da API](http://localhost:3001/docs/#/). </br>
+ 
+### ⚠️ Rotas protegidas
 
-## Support
+As ações devem ser realizadas com a conta da pessoa autenticada.
+O token retornado do login deve ser enviado no header com o nome de `Authorization`.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+ Exemplo:
+ ```
+ Authorization: Bearer {TOKEN_AQUI}
+ ```
+ 
+  
 
-## Stay in touch
+## Banco de Dados
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+O aplicativo usa o banco de dados MySQL. Certifique-se de tê-lo instalado em seu computador caso queira rodar a aplicação **localmente**. A aplicação possui os scripts necessários para criar ou excluir o banco de dados.
 
-## License
+_**Ao iniciar a aplicação, o banco de dados será criado automaticamente.**_
 
-Nest is [MIT licensed](LICENSE).
+Scripts:
+- `npm run db:create` para criar seu banco de dados.
+- `npm run db:drop` para excluir o banco de dados.
+
+ 
+</br>
+ 
+ ---
+
+Projeto desenvolvido por [Thais R Kotovicz](https://www.linkedin.com/in/thaiskotovicz/).
+</br>
