@@ -1,0 +1,28 @@
+version: '3'
+services:
+  
+  mysql:
+    image: mysql:latest
+    platform: linux/x86_64
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: todos-api
+    restart: on-failure
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - "3000:3000"
+    platform: linux/x86_64
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
