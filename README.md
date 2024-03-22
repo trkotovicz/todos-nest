@@ -79,7 +79,6 @@ O token retornado do login deve ser enviado no header com o nome de `Authorizati
  Authorization: Bearer {TOKEN_AQUI}
  ```
  
-  
 
 ## Banco de Dados
 
@@ -93,6 +92,24 @@ Scripts:
 
  
 </br>
+
+
+## Testes
+
+A aplicação possui testes unitários e testes de integração (E2E).
+Para isso, foi utilizado Jest e Supertest.
+
+```bash
+# tests
+npm test
+
+# coverage
+npm run test:cov
+```
+
+ 
+</br>
+
  
  ---
 
