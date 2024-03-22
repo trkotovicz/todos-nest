@@ -23,13 +23,13 @@
     "migration:generate": "npm run typeorm -- migration:generate ./src/typeorm/migrations/Migrate",
     "migration:run": "npm run build && npm run typeorm -- migration:run",
     "migration:revert": "npm run typeorm -- migration:revert",
-    "test": "jest",
+
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "pretest:e2e": "npm run db:drop && npm run db:create",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
-    "posttest:e2e": "npm run db:drop"
+    "pretest": "npm run db:drop && npm run db:create",
+    "test": "jest --config ./test/jest-e2e.json",
+    "posttest": "npm run db:drop"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

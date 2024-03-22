@@ -38,4 +38,14 @@ export class UserEntity {
 
   @OneToMany(() => TodoEntity, (todo) => todo.userId)
   todos: TodoEntity[];
+
+  constructor(user?: Partial<UserEntity>) {
+    this.id = user?.id;
+    this.username = user?.username;
+    this.password = user?.password;
+    this.createdAt = user?.createdAt;
+    this.updatedAt = user?.updatedAt;
+    this.deletedAt = user?.deletedAt;
+    this.todos = user?.todos;
+  }
 }
